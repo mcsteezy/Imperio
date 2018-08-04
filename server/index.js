@@ -8,6 +8,8 @@ const utils = require('./utils.js');
 const server = require('http').createServer(app);
 const socket = require('socket.io');
 const io = socket(server);
+const morgan = require('morgan');
+const users = [];
 
 //Database Dependences Below
 const db = require('../db/users.js');
@@ -48,6 +50,9 @@ app.use(bodyParser.json()); // This should be adjusted towards the type of req.b
 // app.use(bodyParser.text()); //or some other type
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+//for online users
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 const port = process.env.PORT || 3000;
 
@@ -60,9 +65,64 @@ io.on('connection', (client) => {
     io.emit('receive_message', data);
   })
 });
+socket.set('nickname', 'Guest');
  server.listen(port, () => {
   console.log(`server listening from ${port}!`)
 });
+
+//*********online users*************//
+// app.get('/', (req,res) => {
+//   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+// });
+
+// io.on('connection', function(socket) {
+//   var online = Object.keys(io.engine.clients);
+//   io.emit('server message', JSON.stringify(online));
+
+//   socket.on('disconnect', function(){
+//     var online = Object.keys(io.engine.clients);
+//     io.emit('server message', JSON.stringify(online));
+//     });
+// });
+// server.listen(port, () => console.log(`server listening from ${port}!`));
+// server.listen(port, function () {
+//   console.log('Server listening on port %d', port);
+// });
+
+// io.on('connection', function (socket) {
+//     socket.on('new user', function(name, callback){
+//         if(name.length > 0){
+//             if(users.indexOf(name) == -1){
+//                 socket.username = name;
+// //socket.join('football-room');
+//                 users.push(socket.username);
+//                 updateUsers();
+//                 callback(true);
+//             } else{
+//                 callback(false);
+//             }
+//         }
+//     });
+
+
+//     socket.on('new message', function(msg){
+//         var sender = socket.username;
+//         var message = msg;
+//         io.emit('push message', {name: sender, msg: message});
+//     });
+
+//     function updateUsers(){
+//         io.emit('users', users);
+//     }
+
+//     socket.on('disconnect',function(){
+//         if(socket.username){
+//             users.splice(users.indexOf(socket.username),1);
+//             updateUsers();
+//         }
+//     });
+// });
+
 // ////******route requests*********///
 
 app.post('/login', (req, res, next) => {
