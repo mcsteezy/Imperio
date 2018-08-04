@@ -5,6 +5,12 @@
   border-radius : .1rem;
 }
 
+.btn-primary {
+  width: 100px;
+  height: 35px;
+  padding-right: -20px;
+}
+
 #nav-elements {
   display: flex;
   align-items: center;

@@ -16,14 +16,14 @@ class Chat extends Component {
         isLoggedIn: false,
         zipCodeSubmitted: false
       };
-    
+
       this.socket = io('localhost:3000');
-      
+
       this.socket.on('receive_message', (data) => {
         console.log('client received message from server')
         addMessage(data);
       });
-      
+
       const addMessage = (data) => {
         console.log('data:', data);
         this.setState({messages: [...this.state.messages, data]});
@@ -57,7 +57,7 @@ class Chat extends Component {
       this.socket.emit('send_message', {
         author: this.state.username,
         message: this.state.message
-      });        
+      });
     }
 
     // delete this comment
@@ -94,11 +94,11 @@ class Chat extends Component {
               <div className="card">
                 <div className="card-body">
                   <h4>User Chat:</h4>
-                  <div className="card-title"> 
+                  <div className="card-title">
                       {this.state.username ? `Chatting as: ${this.state.username}` : ''}
                   </div>
-                  {!this.state.zipCodeSubmitted ? 
-                    <ChatZipForm 
+                  {!this.state.zipCodeSubmitted ?
+                    <ChatZipForm
                       setZip={this.setZip}
                       submitZip={this.submitZip}
                     /> : ''
@@ -108,41 +108,41 @@ class Chat extends Component {
                       {this.state.messages.map(message => {
                           return (
                               <div>
-                                  <strong>{message.author}:</strong> {message.message}
+                                  <strong>{'anon'+Math.floor(Math.random()*10)+1}</strong> {message.message}
                               </div>
                           )
                       })}
                   </div>
 
                   <div className="card-footer">
-                      {!this.state.isLoggedIn ? 
-                        <input type="text" 
-                          placeholder="Username" 
-                          className="form-control" 
-                          onChange={this.setUsername} 
+                      {!this.state.isLoggedIn ?
+                        <input type="text"
+                          placeholder="Username"
+                          className="form-control"
+                          onChange={this.setUsername}
                         /> : ''
                       }
                       <br/>
-                      <input 
-                        type="text" 
-                        placeholder="Message" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        placeholder="Message"
+                        className="form-control"
                         onChange={this.setMessage}
                       />
                       <br/>
-                      <button 
-                        onClick={this.sendMessage} 
+                      <button
+                        onClick={this.sendMessage}
                         className="btn btn-primary form-control"
                       >
                         Send
                       </button>
                   </div>
                 </div>
-              </div>                            
+              </div>
             </div>
           </div>
         </div>
-      );    
+      );
     }
 }
 

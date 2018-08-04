@@ -40,7 +40,7 @@ export default class ElectionInfo extends Component {
   render () {
     return(
       <div>
-      <div> <input value={this.state.address} placeholder="Enter Address" onChange={this.onChange} />
+      <div> <br/><input value={this.state.address} placeholder="Enter Address" onChange={this.onChange} /> {' '}
       <button onClick={this.search}>Search</button>
       </div>
       <ElectionView data={this.state.data} />

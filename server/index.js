@@ -65,7 +65,8 @@ io.on('connection', (client) => {
     io.emit('receive_message', data);
   })
 });
-socket.set('nickname', 'Guest');
+//was socket.set
+io.set('nickname', 'Guest');
  server.listen(port, () => {
   console.log(`server listening from ${port}!`)
 });

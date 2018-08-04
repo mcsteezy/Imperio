@@ -50,8 +50,8 @@ export default class ZipForm extends Component {
   render() {
     return (
       <div className="jumbotron">
-        <h1 class="display-4"> Find your representatives </h1>
-        <form style={{ display: "inline-block" }}>
+        <h1 class="display-4"> Find Local Representatives </h1>
+        <form style={{ display: "inline-block", flex: 2}}>
           <input
             autoFocus="true"
             name="zip"
@@ -59,7 +59,7 @@ export default class ZipForm extends Component {
             value={this.state.zip}
             onChange={e => this.handleChange(e)}
             placeholder="Enter Zipcode" />
-        </form>
+        </form> {' '}
         <div
           className="btn btn-primary"
           style={{ display: "inline-block" }}
